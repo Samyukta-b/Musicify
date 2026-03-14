@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+
+	<head>
+		<title>Musicify</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Playfair+Display+SC:wght@700&family=Poppins:wght@400;700&display=swap"rel="stylesheet">
+		<link rel="stylesheet" href="index.css">
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+		<script src="env.js"></script>
+		<script defer src="script-fs.js"></script>
+	</head>
+
+	<body>
+		<header>
+			<a href="/"><span>Musicify</span></a>
+		</header>
+		<main>
+			<!-- The Setup -->	
+			<section id="setup-container">
+				<div class="setup-inner">
+					<img src="./images/person.png">
+					<div class="speech-bubble-ai" id="speech-bubble-ai">
+						<p style="color: rgb(200, 150, 0)" id="movie-boss-text">
+							Give me a theme and number of songs, and I'll create a Spotify playlist for you that has an eye-catching name, image and a list of songs picked just for you!
+						</p>
+					</div>
+				</div>
+				<div class="setup-inner setup-input-container" id="setup-input-container">
+					<label>Spotify User ID</label>
+					<input type="text" id="userID">
+					<p></p>
+					<label>Theme</label>
+					<input type="text" id="theme">
+					<p></p>
+					<label>Number of songs</label>
+					<input type="number" min="1" max="10" id="num-of-songs">
+					<p></p>
+					
+					<button class="submit-btn" id="submit-btn" aria-label="send">
+							<img src="./images/submit-img.png" width="150px" height="40px" alt="send">
+					</button>
+				</div>
+			</section>
+
+			<!-- The Output -->
+			<section class="output-container" id="output-container">
+				<div id="output-img-container" class="output-img-container"></div>
+				<h1 id="output-title"></h1>
+				<h3 id="output-desc"></h2>
+				<p></p><p></p>
+				<h2 id="output-song"></h2>
+				<p style="color: rgb(255, 255, 255); text-align: left;" id="output-list"></p>
+				<p></p><p></p>
+
+				<button class="create-btn" id="create-btn" aria-label="return">
+					<img src="./images/create-img.png" width="150px" height="40px" alt="send">
+				</button>
+			</section>
+
+			<!-- The Playlist-->
+			<div class="spotify-embed" id="spotify-embed"></div>
+		</main>
+		<footer>
+			&copy; 2024 Musicify All rights reserved
+		</footer>
+	</body>
+
+</html>
