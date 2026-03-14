@@ -1,4 +1,4 @@
-const url = "https://api.openai.com/v1/completions";
+const url = "http://localhost:11434/api/generate";
 
 const setupContainer = document.getElementById('setup-container');
 const setupInputContainer = document.getElementById('setup-input-container');
@@ -10,7 +10,7 @@ const outputDesc = document.getElementById('output-desc');
 const outputSong = document.getElementById('output-song');
 const outputList = document.getElementById('output-list');
 
-const urls = 'https://api.openai.com/v1/images/generations'
+const urls = 'http://localhost:11434/api/generate'  // Note: Ollama doesn't generate images; using text description instead
 const outputImg = document.getElementById('output-img-container');
 const returnButton = document.getElementById('return-btn');
 
@@ -31,18 +31,17 @@ async function fetchBotReply(theme, numOfSongs, token) {
     const response = await fetch(url, {
       method: 'POST',
       headers: {
-        "Content-Type": "application/json",
-        'Authorization': `Bearer ${apiKey}`
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        'model': 'gpt-3.5-turbo-instruct',
+        'model': 'llama2',  // Change to your preferred Ollama model, e.g., 'mistral'
         'prompt': `Tell me my prompt is a good theme in 10 words.`,
-        'max_tokens': 20 // Adjust this value based on your requirement
+        'stream': false
       })
     });
 
     const data = await response.json();
-    const botReply = data.choices[0].text.trim();
+    const botReply = data.response.trim();
     console.log(botReply);
 
     movieBossText.innerText = botReply;
@@ -59,11 +58,10 @@ async function fetchSongList(theme, numOfSongs, token) {
     const response = await fetch(url, { 
       method: 'POST',
       headers: {
-        "Content-Type": "application/json",
-        'Authorization': `Bearer ${apiKey}`
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        'model': 'gpt-3.5-turbo-instruct',
+        'model': 'llama2',  // Change to your preferred Ollama model
         'prompt': `Use the given theme and genre of music to create a playlist with the given number of songs.
         
         ###
@@ -151,12 +149,12 @@ async function fetchSongList(theme, numOfSongs, token) {
 
         response: `,
         
-        'max_tokens': 350 // Adjust this value based on your requirement
+        'stream': false
       })
     });
 
     const data = await response.json();
-    const botReply = data.choices[0].text.trim();
+    const botReply = data.response.trim();
     console.log(botReply);
     const botReplyJSON = JSON.parse(botReply);
     console.log(botReplyJSON+"\nafterparse");
@@ -217,29 +215,9 @@ async function fetchSongList(theme, numOfSongs, token) {
 }
 
 function generateImage(prompt) {
-    const requestOptions = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`
-      },
-      body: JSON.stringify({
-        prompt: prompt,
-        n: 1,
-        size: '256x256',
-        response_format: 'b64_json'
-      })
-    };
-    console.log('Request Options:', requestOptions);
-    fetch(urls, requestOptions)
-      .then(response => response.json())
-      .then(data => {
-          console.log(data);
-        const imageData = data.data[0].b64_json;
-        outputImg.innerHTML = `<img src="data:image/png;base64,${imageData}">`;
-      })
-      .catch(error => console.error(error));
-  }
+    // Since Ollama doesn't generate images, display the text description instead
+    outputImg.innerHTML = `<p style="color: white; font-style: italic;">Album Art Description: ${prompt}</p>`;
+}
 
 async function fetchWebApi(endpoint, method, token, body = null) {
   try {
